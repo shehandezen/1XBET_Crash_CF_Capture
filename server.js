@@ -23,7 +23,7 @@ let x
     });
 
     let page = await browser.newPage();
-    await page.goto("https://1xbet.com/en/allgamesentrance/crash", { timeout: 120000 });
+    await page.goto("https://1xbet.com/en/allgamesentrance/crash", { timeout: 300000 });
 
     const client = await page.target().createCDPSession()
 

@@ -7,7 +7,7 @@ module.exports = async () => {
         // 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe'
         const options = {
             executablePath: process.env.NODE_ENV == 'production' ? process.env.PUPPETEER_EXECUTABLE_PATH : puppeteer.executablePath() ,
-            headless: false,
+            headless: true,
             devtools: false,
             ignoreHTTPSErrors: true,
             args: [
@@ -16,7 +16,7 @@ module.exports = async () => {
                 '--disable-setuid-sandbox',
                 '--ignore-certificate-errors',
             ],
-            ignoreDefaultArgs:['--enable-automation'],
+            ignoreDefaultArgs:['--enable-automation', '--disable-extensions'],
             slowMo: 10
         };
         await puppeteer.use(StealthPlugin());
