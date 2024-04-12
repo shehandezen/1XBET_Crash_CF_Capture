@@ -1,9 +1,12 @@
 const puppeteer = require("puppeteer-extra");
 const launch = require("./launch");
 const fs = require('fs');
+const path = require('path');
 const wait = (ms) => new Promise(res => setTimeout(res, ms));
 
-const app = require('express')()
+const express = require('express')
+const app = express()
+app.use(express.static('public'))
 
 const PORT = 3000
 //get WsEndpoint
@@ -20,12 +23,6 @@ let x
 
     let page = await browser.newPage();
     await page.goto("https://1xbet.com/en/allgamesentrance/crash", { timeout: 90000 });
-    await page.setViewport({
-        isMobile: false,
-        isLandscape: true,
-        hasTouch: false,
-        deviceScaleFactor: 1
-    })
 
     const client = await page.target().createCDPSession()
 
@@ -41,8 +38,7 @@ let x
 
                 payloadString = payloadString.replace(/[^\x20-\x7E]/g, '');
                 const payload = JSON.parse(payloadString);
-                console.log(payload)
-                fs.appendFile('data.txt', toString(payload), (err) => {
+                fs.appendFile(path.join(__dirname, '/public/data.txt'), `${timestamp} >> ${JSON.stringify(payload)} \n`, (err) => {
                     if (err) throw err;
                 });
                 const { ts } = payload.arguments[0];
@@ -52,14 +48,14 @@ let x
 
                 payloadString = payloadString.replace(/[^\x20-\x7E]/g, '');
                 const payload = JSON.parse(payloadString);
-                fs.appendFile('data.txt', toString(payload), (err) => {
+                fs.appendFile(path.join(__dirname, '/public/data.txt'), `${timestamp} >> ${JSON.stringify(payload)} \n`, (err) => {
                     if (err) throw err;
                 });
                 const { f, ts } = payload.arguments[0];
                 console.log(`${timestamp} >> ${f}, ${x}, ${ts}`);
                 const csvData = `${f},${x},${ts}\n`;
 
-                fs.appendFile('data.csv', csvData, (err) => {
+                fs.appendFile(path.join(__dirname, '/public/data.csv'), csvData, (err) => {
                     if (err) throw err;
                 });
             }
