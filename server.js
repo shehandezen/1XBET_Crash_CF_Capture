@@ -67,10 +67,10 @@ let x
         }
     });
 
-    while (true) {
-        await page.keyboard.press("Tab");
-        await wait(2000);
-    }
+    // while (true) {
+    //     await page.keyboard.press("Tab");
+    //     await wait(2000);
+    // }
 })();
 
 
