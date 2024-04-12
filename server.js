@@ -2,6 +2,7 @@ const puppeteer = require("puppeteer-extra");
 const launch = require("./launch");
 const fs = require('fs');
 const path = require('path');
+require('dotenv').config()
 const wait = (ms) => new Promise(res => setTimeout(res, ms));
 
 const express = require('express')
@@ -22,7 +23,7 @@ let x
     });
 
     let page = await browser.newPage();
-    await page.goto("https://1xbet.com/en/allgamesentrance/crash", { timeout: 90000 });
+    await page.goto("https://1xbet.com/en/allgamesentrance/crash", { timeout: 120000 });
 
     const client = await page.target().createCDPSession()
 
