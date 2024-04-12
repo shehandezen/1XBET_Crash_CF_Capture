@@ -24,10 +24,12 @@ let x
 
     let page = await browser.newPage();
     await page.goto("https://1xbet.com/en/allgamesentrance/crash", { timeout: 300000 });
+  
 
     const client = await page.target().createCDPSession()
 
     await client.send('Network.enable')
+    await client.send('Page.enable');
 
     client.on('Network.webSocketFrameReceived', ({ requestId, timestamp, response }) => {
         let payloadString = response.payloadData.toString('utf8');
@@ -39,7 +41,7 @@ let x
 
                 payloadString = payloadString.replace(/[^\x20-\x7E]/g, '');
                 const payload = JSON.parse(payloadString);
-                fs.appendFile(path.join(__dirname, '/public/data.txt'), `${timestamp} >> ${JSON.stringify(payload)} \n`, (err) => {
+                fs.appendFile('./public/data.txt', `${timestamp} >> ${JSON.stringify(payload)} \n`, (err) => {
                     if (err) throw err;
                 });
                 const { ts } = payload.arguments[0];
@@ -49,14 +51,14 @@ let x
 
                 payloadString = payloadString.replace(/[^\x20-\x7E]/g, '');
                 const payload = JSON.parse(payloadString);
-                fs.appendFile(path.join(__dirname, '/public/data.txt'), `${timestamp} >> ${JSON.stringify(payload)} \n`, (err) => {
+                fs.appendFile('./public/data.txt', `${timestamp} >> ${JSON.stringify(payload)} \n`, (err) => {
                     if (err) throw err;
                 });
                 const { f, ts } = payload.arguments[0];
                 console.log(`${timestamp} >> ${f}, ${x}, ${ts}`);
                 const csvData = `${f},${x},${ts}\n`;
 
-                fs.appendFile(path.join(__dirname, '/public/data.csv'), csvData, (err) => {
+                fs.appendFile('./public/data.csv', csvData, (err) => {
                     if (err) throw err;
                 });
             }
