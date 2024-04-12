@@ -7,7 +7,7 @@ module.exports = async () => {
         // 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe'
         const options = {
             executablePath: process.env.NODE_ENV == 'production' ? process.env.PUPPETEER_EXECUTABLE_PATH : puppeteer.executablePath() ,
-            headless: true,
+            headless: false,
             devtools: false,
             ignoreHTTPSErrors: true,
             args: [
